@@ -1,32 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:product_list_app/screens/product_list_screen.dart';
+import '../services/auth_service.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
+  final AuthService authService = AuthService();
+
   LoginScreen({super.key});
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  Future<void> _signInAnonymously(BuildContext context) async {
-    try {
-      await _auth.signInAnonymously();
-      Navigator.pushReplacement(
-        // ignore: use_build_context_synchronously
-        context,
-        MaterialPageRoute(builder: (_) => ProductListScreen()),
-      );
-    } catch (e) {
-      print('Error al iniciar sesión: $e');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Iniciar Sesión')),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () => _signInAnonymously(context),
-          child: const Text('Iniciar Sesión Anónima'),
+        child: ElevatedButton.icon(
+          icon: Icon(Icons.login),
+          label: Text("Iniciar sesión con Google"),
+          onPressed: () async {
+            final user = await authService.signInWithGoogle();
+            if (user != null) {
+              Navigator.pushReplacement(
+                // ignore: use_build_context_synchronously
+                context,
+                MaterialPageRoute(builder: (_) => HomeScreen(user: user)),
+              );
+            }
+          },
         ),
       ),
     );
