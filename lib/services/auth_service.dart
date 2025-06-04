@@ -21,4 +21,18 @@ class AuthService {
     await _googleSignIn.signOut();
     await _auth.signOut();
   }
+
+  Future<User?> loginWithEmailAndPassword(String email, String password) async {
+    try {
+      // Iniciar sesión
+      UserCredential credential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return credential.user; // Devuelve el usuario de Firebase
+    } catch (e) {
+      print("Error: $e");
+      return null;
+    }
+  }
 }

@@ -1,4 +1,4 @@
-import 'package:product_list_app/models/product.dart';
+import 'package:product_list_app/domain/models/product.dart';
 
 class Cart {
   static final List<Product> _items = [];

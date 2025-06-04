@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:product_list_app/models/product.dart';
-import 'package:product_list_app/screens/cart_screen.dart';
-import 'package:product_list_app/screens/product_detail_screen.dart';
+import 'package:product_list_app/domain/models/product.dart';
+import 'package:product_list_app/presentation/screens/cart_screen.dart';
+import 'package:product_list_app/presentation/screens/product_detail_screen.dart';
 import 'package:product_list_app/services/product_service.dart';
 
 class ProductListScreen extends StatelessWidget {

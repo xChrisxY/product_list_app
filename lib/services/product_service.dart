@@ -1,13 +1,16 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:product_list_app/models/product.dart';
+import 'package:product_list_app/domain/models/product.dart';
 
 class ProductService {
+  http.Client httpClient;
+  ProductService({http.Client? client}) : httpClient = client ?? http.Client();
+
   final String url = 'https://fakestoreapi.com/products';
   final String cartUrl = 'https://fakestoreapi.com/carts';
 
   Future<List<Product>> getProducts() async {
-    final responseService = await http.get(Uri.parse(url));
+    final responseService = await httpClient.get(Uri.parse(url));
 
     if (responseService.statusCode == 200) {
       List<dynamic> jsonList = json.decode(responseService.body);
@@ -18,7 +21,7 @@ class ProductService {
   }
 
   Future<Product> getProductDetail(int id) async {
-    final responseService = await http.get(Uri.parse('$url/$id'));
+    final responseService = await httpClient.get(Uri.parse('$url/$id'));
 
     if (responseService.statusCode == 200) {
       return Product.fromJson(json.decode(responseService.body));
@@ -28,7 +31,7 @@ class ProductService {
   }
 
   Future<void> addToCart(int userId, Product product) async {
-    final response = await http.post(
+    final response = await httpClient.post(
       Uri.parse(cartUrl),
       headers: {'Content-Type': 'application/json'},
       body: json.encode({
